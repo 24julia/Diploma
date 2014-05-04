@@ -85,7 +85,11 @@ using namespace std;
 		analysis_res.push_back(n2);
 		int count1=MAIN_struct1.a6.size();
 		int count2=MAIN_struct2.a6.size();
+		int count3=MAIN_struct3.a6.size();
 		int count4=MAIN_struct4.a6.size();
+		std::vector<long> a1_3_1;
+		std::vector<long> a1_3_2;
+		std::vector<long> a1_4;
 		long a6_last1 = 0, a6_last2 = 0, a6_last3 = 0;
 		out.open("log.txt");
 		//Основной цикл
@@ -143,63 +147,65 @@ using namespace std;
 			//4 блок
 			MAIN_struct4 = Processing_Func (MAIN_struct4);
 			//3 блок
-			if (!MAIN_struct3.a6.empty()) 
-				a6_last1 = MAIN_struct3.a6.back();
-
 			MAIN_struct3 = Processing_Func (MAIN_struct3);
 
-			if (!MAIN_struct3.a6.empty() && (a6_last3 != MAIN_struct3.a6.back()))
-				MAIN_struct4.a1.push_back(MAIN_struct3.a6.back());
+			while (!MAIN_struct3.a6.empty()){
+				MAIN_struct4.a1.push_back(MAIN_struct3.a6.front());
+				a1_4.push_back(MAIN_struct3.a6.front());
+				MAIN_struct3.a6.erase(MAIN_struct3.a6.begin());}
 			//2 блок
-			if (!MAIN_struct2.a6.empty()) 
-				a6_last1 = MAIN_struct2.a6.back();
-
 			MAIN_struct2 = Processing_Func (MAIN_struct2);
 
-			if (!MAIN_struct2.a6.empty() && (a6_last2 != MAIN_struct2.a6.back()))
-				MAIN_struct3.a1.push_back(MAIN_struct2.a6.back());
+			while (!MAIN_struct2.a6.empty()){
+				MAIN_struct3.a1.push_back(MAIN_struct2.a6.front());
+				a1_3_2.push_back(MAIN_struct2.a6.front());
+				MAIN_struct2.a6.erase(MAIN_struct2.a6.begin());}
 			//1 блок
-			if (!MAIN_struct1.a6.empty()) 
-				a6_last1 = MAIN_struct1.a6.back();
-
+			
 			MAIN_struct1 = Processing_Func (MAIN_struct1);
-			if ((!MAIN_struct1.a6.empty()) && (a6_last1 != MAIN_struct1.a6.back()))
-				MAIN_struct3.a1.push_back(MAIN_struct1.a6.back());	
-
+			while ((!MAIN_struct1.a6.empty()) ){
+				MAIN_struct3.a1.push_back(MAIN_struct1.a6.front());	
+				a1_3_1.push_back(MAIN_struct1.a6.front());
+				MAIN_struct1.a6.erase(MAIN_struct1.a6.begin());}
 			// LOG
 			
-					if (count1!=MAIN_struct1.a6.size()){
-						cout << MAIN_struct1.a6.size() << " of_1 " << N_itt<< " D1: "  << MAIN_struct1.Block_D1[0]<< " D2: " <<MAIN_struct1.Block_D2[0]<< " T_end: " <<MAIN_struct1.T_end<< endl;
-						out << MAIN_struct1.a6.size() << " of_1 " << N_itt<< " D1: "  << MAIN_struct1.Block_D1[0]<< " D2: " <<MAIN_struct1.Block_D2[0]<< " T_end: " <<MAIN_struct1.T_end<< endl;
-						count1=MAIN_struct1.a6.size();
+					if (count1!=a1_3_1.size()){
+						cout << a1_3_1.size() << " in_3_from_1 " << N_itt<< " D1: "  << MAIN_struct1.Block_D1[0]<< " D2: " <<MAIN_struct1.Block_D2[0]<< " T_end: " <<MAIN_struct1.T_end<< endl;
+						out << a1_3_1.size() << " in_3_from_1 " << N_itt<< " D1: "  << MAIN_struct1.Block_D1[0]<< " D2: " <<MAIN_struct1.Block_D2[0]<< " T_end: " <<MAIN_struct1.T_end<< endl;
+						count1=a1_3_1.size();
 					}
-					if (count2!=MAIN_struct2.a6.size()){
-						cout << MAIN_struct2.a6.size() << " of_2 " << N_itt<< " D1: "  << MAIN_struct2.Block_D1[0]<< " D2: " <<MAIN_struct2.Block_D2[0]<< " T_end: " <<MAIN_struct2.T_end<< endl;
-						out << MAIN_struct2.a6.size() << " of_2 " << N_itt<< " D1: "  << MAIN_struct2.Block_D1[0]<< " D2: " <<MAIN_struct2.Block_D2[0]<< " T_end: " <<MAIN_struct2.T_end<< endl;
-						count2=MAIN_struct2.a6.size();
+					if (count2!=a1_3_2.size()){
+						cout << a1_3_2.size() << " in_3_from_2 " << N_itt<< " D1: "  << MAIN_struct2.Block_D1[0]<< " D2: " <<MAIN_struct2.Block_D2[0]<< " T_end: " <<MAIN_struct2.T_end<< endl;
+						out << a1_3_2.size() << " in_3_from_2 " << N_itt<< " D1: "  << MAIN_struct2.Block_D1[0]<< " D2: " <<MAIN_struct2.Block_D2[0]<< " T_end: " <<MAIN_struct2.T_end<< endl;
+						count2=a1_3_2.size();
+					}
+					if (count3!=a1_4.size()){
+						cout << a1_4.size() << " in_4        " << N_itt<< " D1: "  << MAIN_struct3.Block_D1[0]<< " D2: " <<MAIN_struct3.Block_D2[0]<< " T_end: " <<MAIN_struct3.T_end<< endl;
+						out << a1_4.size() << " in_4         " << N_itt<< " D1: "  << MAIN_struct3.Block_D1[0]<< " D2: " <<MAIN_struct3.Block_D2[0]<< " T_end: " <<MAIN_struct3.T_end<< endl;
+						count3=a1_4.size();
 					}
 					if (count4!=MAIN_struct4.a6.size()){
-						cout << MAIN_struct4.a6.size() << " of_4 " << N_itt<< " D1: "  << MAIN_struct4.Block_D1[0]<< " D2: " <<MAIN_struct4.Block_D2[0]<< " T_end: " <<MAIN_struct4.T_end<< endl;
-						out << MAIN_struct4.a6.size() << " of_4 " << N_itt<< " D1: "  << MAIN_struct4.Block_D1[0]<< " D2: " <<MAIN_struct4.Block_D2[0]<< " T_end: " <<MAIN_struct4.T_end<< endl;
+						cout << MAIN_struct4.a6.size() << " out_4       " << N_itt<< " D1: "  << MAIN_struct4.Block_D1[0]<< " D2: " <<MAIN_struct4.Block_D2[0]<< " T_end: " <<MAIN_struct4.T_end<< endl;
+						out << MAIN_struct4.a6.size() << " out_4        " << N_itt<< " D1: "  << MAIN_struct4.Block_D1[0]<< " D2: " <<MAIN_struct4.Block_D2[0]<< " T_end: " <<MAIN_struct4.T_end<< endl;
 						count4=MAIN_struct4.a6.size();
 					}
 
 		}	
+		out << MAIN_struct1.a6.size() << " of_1 " << MAIN_struct2.a6.size() << " of_2 " << MAIN_struct3.a6.size() << " of_3 " << MAIN_struct4.a6.size() << " of_4 ";
 		out.close();	
-
 		//запись в файл
 
-        out.open("file.txt");
+       out.open("file.txt");
 		for (i=0; i<MAIN_struct1.a6.size(); i++){
-			out<<MAIN_struct1.a6[i]<<endl;
+			out<<a1_3_1[i]<<endl;
 		}
 		out.close();
 
 		out.open("Time_in_1_block.txt");
 		for (i=0; i<N_itt; i++){
-			out<<MAIN_struct1.a6[i]-First_Signals1[i]<<endl;
+			out<<a1_3_1[i]-First_Signals1[i]<<endl;
 		}
 		out.close();
-		
+				
 		return 0;
 	}

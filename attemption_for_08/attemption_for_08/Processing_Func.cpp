@@ -35,8 +35,7 @@ Processing_Struct Processing_Func (Processing_Struct one)
 						if (one.a1[0] < one.T_end)
 						{
 							one = FirstProc (one);
-							first_que = false;
-						}
+												}
 						else
 						{
 							first_que = false;
@@ -48,12 +47,11 @@ Processing_Struct Processing_Func (Processing_Struct one)
 						if (one.a5.empty())
 						{
 							one = ThirdProc (one);
-							first_que = false;
 						}
 						else
 						{
 							one = FifthProc (one);
-							first_que = false;
+					
 						}
 					}
 				}
@@ -73,12 +71,11 @@ Processing_Struct Processing_Func (Processing_Struct one)
 				if (one.a4.empty()) 
 				{
 					one = SecondProc (one);
-					second_que = false;
 				}
 				else
 				{
 					one = FourthProc (one);
-					second_que = false;
+					
 				}
 	
 			}
@@ -93,7 +90,7 @@ Processing_Struct Processing_Func (Processing_Struct one)
 		int size_block1 = one.W1.size();
 		for (int i=0; i<size_block1; i++)
 		{
-			if (((one.T_start - dT)< one.Block_D1[i]) && (one.Block_D1[i] <= one.T_end)) 
+			if (((one.T_start-dT)< one.Block_D1[i]) && (one.Block_D1[i] <= one.T_end)) 
 			{
 				// добавляем во вторую очередь
 				if (one.W1[i] == 1)	one.a2.push_back(one.Block_D1[i]);

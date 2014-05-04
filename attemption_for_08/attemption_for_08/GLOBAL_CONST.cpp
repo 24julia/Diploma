@@ -7,9 +7,9 @@ double dT;
 const double lambda0 = 0.005; // показатель экспоненциального распределения 
 const double lambda1 = 0.025; // задается показатель пуассновского распределения для блока D1
 const double lambda2 = 0.025; // задается показатель пуассоновского распрделения для блока D2
-const  int n=2; // число блоков в D1
+const  int n=50; // число блоков в D1
 const double dT_koef = 500;
 
 // ВООБЩЕ НЕ ТРОГАЕМ
 const double sigma=0.1; // допустимая погрешность 
-const double insurance = 0.8; // степень неуверенности
+const double insurance = 0.95; // степень неуверенности
