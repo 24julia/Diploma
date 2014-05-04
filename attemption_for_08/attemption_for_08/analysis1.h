@@ -8,6 +8,7 @@
 #include <algorithm>
 #include "GLOBAL_CONST.h"
 #include "Processing_Func.h"
+#include "queue_len.h"
 
 std::vector<int> analysis1(Processing_Struct, Processing_Struct, Processing_Struct, Processing_Struct);
 

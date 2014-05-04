@@ -84,18 +84,19 @@ using namespace std;
 		analysis_res.push_back(n1);
 		analysis_res.push_back(n2);
 		int count1=MAIN_struct1.a6.size();
+		int count2=MAIN_struct2.a6.size();
 		int count4=MAIN_struct4.a6.size();
 		long a6_last1 = 0, a6_last2 = 0, a6_last3 = 0;
 		out.open("log.txt");
 		//Основной цикл
 		while (MAIN_struct4.a6.size() < 2*N_itt){
-		if (n1 == 0 && n2 == 0){
-			analysis_res = analysis1(MAIN_struct1, MAIN_struct2, MAIN_struct3, MAIN_struct4);
-			n1 = analysis_res[0];
-			n2 = analysis_res[1];
-		}
-		//Вынимаем сервер из узла n1
-		if (n1 > 0){ switch (n1){
+			if (n1 == 0 && n2 == 0){
+				//analysis_res = analysis1(MAIN_struct1, MAIN_struct2, MAIN_struct3, MAIN_struct4);
+				//n1 = analysis_res[0];
+				//n2 = analysis_res[1];
+			}
+			//Вынимаем сервер из узла n1
+			if (n1 > 0){ switch (n1){
 					case 1: {	MAIN_struct1.n = n1;
 								MAIN_struct1 = reduce_d1(MAIN_struct1);
 								n1 = MAIN_struct1.n;
@@ -118,9 +119,9 @@ using namespace std;
 					}
 
 				}
-		}
-		//Запихиваем сервер в узел n2
-		if (n1 = 0) { switch (n2){
+			}
+			//Запихиваем сервер в узел n2
+			if (n1 = 0) { switch (n2){
 					case 1: {	MAIN_struct1 = increase_d1(MAIN_struct1);
 								break;
 					}
@@ -136,7 +137,7 @@ using namespace std;
 
 					}
 					n2 = 0;
-		}
+			}
 			
 			//Функция обработки
 			//4 блок
@@ -172,13 +173,19 @@ using namespace std;
 						out << MAIN_struct1.a6.size() << " of_1 " << N_itt<< " D1: "  << MAIN_struct1.Block_D1[0]<< " D2: " <<MAIN_struct1.Block_D2[0]<< " T_end: " <<MAIN_struct1.T_end<< endl;
 						count1=MAIN_struct1.a6.size();
 					}
+					if (count2!=MAIN_struct2.a6.size()){
+						cout << MAIN_struct2.a6.size() << " of_2 " << N_itt<< " D1: "  << MAIN_struct2.Block_D1[0]<< " D2: " <<MAIN_struct2.Block_D2[0]<< " T_end: " <<MAIN_struct2.T_end<< endl;
+						out << MAIN_struct2.a6.size() << " of_2 " << N_itt<< " D1: "  << MAIN_struct2.Block_D1[0]<< " D2: " <<MAIN_struct2.Block_D2[0]<< " T_end: " <<MAIN_struct2.T_end<< endl;
+						count2=MAIN_struct2.a6.size();
+					}
 					if (count4!=MAIN_struct4.a6.size()){
 						cout << MAIN_struct4.a6.size() << " of_4 " << N_itt<< " D1: "  << MAIN_struct4.Block_D1[0]<< " D2: " <<MAIN_struct4.Block_D2[0]<< " T_end: " <<MAIN_struct4.T_end<< endl;
 						out << MAIN_struct4.a6.size() << " of_4 " << N_itt<< " D1: "  << MAIN_struct4.Block_D1[0]<< " D2: " <<MAIN_struct4.Block_D2[0]<< " T_end: " <<MAIN_struct4.T_end<< endl;
 						count4=MAIN_struct4.a6.size();
 					}
 
-		}	out.close();	
+		}	
+		out.close();	
 
 		//запись в файл
 

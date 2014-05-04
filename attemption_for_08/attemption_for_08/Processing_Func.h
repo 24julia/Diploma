@@ -15,7 +15,7 @@ std::vector<long> Block_D1;
 std::vector<long> Block_D2;
 std::vector<long> W1; // =1 если значени из очереди 1. =3 ...
 std::vector<long> W2;
-long n;//0-успешно изъ€т элемент
+int n;//0-успешно изъ€т элемент
 };
 
 Processing_Struct Processing_Func(Processing_Struct);

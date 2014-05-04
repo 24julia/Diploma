@@ -25,8 +25,7 @@ Processing_Struct Processing_Func (Processing_Struct one)
 		{	
 				// определяем минимальный элемент W1 (заняты ли все устройства)
 				vector<long>::const_iterator lowest = min_element( one.W1.begin(), one.W1.end() );
-				long bussy;
-				bussy = *lowest;
+				long bussy = *lowest;
 				if (bussy > 0) {first_que = false;}
 
 				else// есть свободное устройство
@@ -36,6 +35,7 @@ Processing_Struct Processing_Func (Processing_Struct one)
 						if (one.a1[0] < one.T_end)
 						{
 							one = FirstProc (one);
+							first_que = false;
 						}
 						else
 						{
@@ -48,10 +48,12 @@ Processing_Struct Processing_Func (Processing_Struct one)
 						if (one.a5.empty())
 						{
 							one = ThirdProc (one);
+							first_que = false;
 						}
 						else
 						{
 							one = FifthProc (one);
+							first_que = false;
 						}
 					}
 				}
@@ -71,10 +73,12 @@ Processing_Struct Processing_Func (Processing_Struct one)
 				if (one.a4.empty()) 
 				{
 					one = SecondProc (one);
+					second_que = false;
 				}
 				else
 				{
 					one = FourthProc (one);
+					second_que = false;
 				}
 	
 			}

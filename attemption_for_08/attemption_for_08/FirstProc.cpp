@@ -19,8 +19,7 @@ using namespace std;
 			one.a1.erase( one.a1.begin( ) );
 			// Получаем минимальный элемент, сложность O(n)
 			vector<long>::const_iterator lowest = min_element( one.Block_D1.begin(), one.Block_D1.end() );
-			int min_number;
-			min_number = lowest - one.Block_D1.begin();
+			int min_number = lowest - one.Block_D1.begin();
 			// Заменяем минимальный элемент на время появления сигнала + Пуассоновская СВ
 			if (element < one.Block_D1[min_number])
 			{ 
