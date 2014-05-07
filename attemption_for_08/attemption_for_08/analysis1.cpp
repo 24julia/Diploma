@@ -9,24 +9,32 @@
 #include "queue_len.h"
 
 // выдаёт ответ в след формате: res[0] - номер узла, из которого вытащить, res[1] - в который вставить
-std::vector<int> analysis1(Processing_Struct struct1, Processing_Struct struct2, Processing_Struct struct3, Processing_Struct struct4){	
-	std::vector<int> res;
-	std::vector<long> a;
-	a.push_back(queue_len(struct1, 1)/struct1.Block_D1.size());
-	a.push_back(queue_len(struct2, 0)/struct2.Block_D1.size());
-	a.push_back(queue_len(struct3, 0)/struct3.Block_D1.size());
-	a.push_back(queue_len(struct4, 0)/struct4.Block_D1.size());
+int* analysis1(Processing_Struct State[4]){	
+	int res[2];
+	long a[4];
+	int i;
+	for (i=0;i<3;i++){
+		if (i<2) {a[i] =(queue_len(State[i], 1)/State[i].Block_D1.size());}
+		else {    a[i] =(queue_len(State[i], 0)/State[i].Block_D1.size());}
+	}
+	
+	int largest = -1;
+	int lowest = 0;
+	long max = -1;
+	long min = a[0];
 
-	std::vector<long>::const_iterator largest = max_element(a.begin(), a.end());
-	std::vector<long>::const_iterator lowest  = min_element(a.begin(), a.end());
+	for (i=0;i<4;i++){
+		if (a[i] > max){largest = i; max = a[i];}
+		if (a[i]<min){lowest = i; min = a[i];}
+	}
 
-	if (*largest != *lowest){		
-		res.push_back(lowest -a.begin());
-		res.push_back(largest-a.begin());
+	if ((max != min)&&(State[lowest].Block_D1.size() != 1)){
+			res[0] = lowest;
+			res[1] = largest;
 	}
 	else{
-		res.push_back(0);
-		res.push_back(0);
+		res[0] = -1;
+		res[1] = -1;
 	}
 	return res;
 }

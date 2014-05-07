@@ -10,6 +10,6 @@
 #include "Processing_Func.h"
 #include "queue_len.h"
 
-std::vector<int> analysis1(Processing_Struct, Processing_Struct, Processing_Struct, Processing_Struct);
+int* analysis1(Processing_Struct[4]);
 
 #endif
