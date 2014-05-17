@@ -33,7 +33,7 @@ using namespace std;
 		
 //ГЕНЕРАЦИЯ ЗАЯВОК ВО ВХОДНОМ ПОТОКЕ 
 		long Exp_Random_V;
-		for (i=0; i<N_itt; i++)
+		for (i=0; i<N_itt/(2*koef_unlock)+1; i++)
 		{
 			if (i==0) Exp_Random_V = -1*(1/lambda0)*log(fRand());
 			else {Exp_Random_V = First_Signals1[i-1]-1*(1/lambda0)*log(fRand());}
@@ -68,7 +68,7 @@ using namespace std;
 		std::vector<long> a1[4];
 		out.open("log.txt");
 		//Основной цикл
-		while (a1[3].size() < 2*N_itt){
+		while (a1[3].size() < N_itt){
 			if (n1 == -1 && n2 == -1){
 				analysis_res = analysis1(State_of_all);
 				n1 = analysis_res[0];
@@ -97,7 +97,7 @@ using namespace std;
 					a1[3].push_back(State_of_all[3].a6.front());
 					State_of_all[3].a6.erase(State_of_all[3].a6.begin());
 				}
-			//3 блок
+			//3-1 блок
 			for(i=2;i>=0;i--){
 				State_of_all[i] = Processing_Func (State_of_all[i]);
 				while (!State_of_all[i].a6.empty()){
@@ -105,7 +105,13 @@ using namespace std;
 					if (i==0){
 						State_of_all[2].a1.push_back(State_of_all[0].a6.front());
 					}else{
-						State_of_all[i+1].a1.push_back(State_of_all[i].a6.front());
+						if (i==1){
+							State_of_all[2].a1.push_back(State_of_all[1].a6.front());
+						}else{
+							if(a1[3].size()<(koef_unlock+0.1)*a1[2].size()){
+								State_of_all[3].a1.push_back(State_of_all[2].a6.front());
+							}
+						}
 					}
 					a1[i].push_back(State_of_all[i].a6.front());
 					State_of_all[i].a6.erase(State_of_all[i].a6.begin());
@@ -114,8 +120,8 @@ using namespace std;
 			// LOG
 			for (i=0;i<4;i++){
 				if (count[i]!=a1[i].size()){
-					cout << a1[i].size() << "/"<<N_itt<<" out of " << i+1 << "(" << State_of_all[i].Block_D1.size()<<") "<< n1 <<" "<< n2 << " D1: "  << State_of_all[i].Block_D1[0]<< " D2: " <<State_of_all[i].Block_D2[0]<< " T_end: " <<State_of_all[i].T_end<< endl;
-					 out << a1[i].size() << "/"<<N_itt<<" out of " << i+1 << "(" << State_of_all[i].Block_D1.size()<<") "<< n1 <<" "<< n2 << " D1: "  << State_of_all[i].Block_D1[0]<< " D2: " <<State_of_all[i].Block_D2[0]<< " T_end: " <<State_of_all[i].T_end<< endl;
+					cout << a1[i].size() << "/"<<(N_itt/(2*koef_unlock)+1)<<" out of " << i+1 << "(" << State_of_all[i].Block_D1.size()<<") "<< n1 <<" "<< n2 << " D1: "  << State_of_all[i].Block_D1[0]<< " D2: " <<State_of_all[i].Block_D2[0]<< " T_end: " <<State_of_all[i].T_end<< endl;
+					 out << a1[i].size() << "/"<<(N_itt/(2*koef_unlock)+1)<<" out of " << i+1 << "(" << State_of_all[i].Block_D1.size()<<") "<< n1 <<" "<< n2 << " D1: "  << State_of_all[i].Block_D1[0]<< " D2: " <<State_of_all[i].Block_D2[0]<< " T_end: " <<State_of_all[i].T_end<< endl;
 					count[i]=a1[i].size();
 				}
 			}

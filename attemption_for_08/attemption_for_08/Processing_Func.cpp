@@ -90,7 +90,7 @@ Processing_Struct Processing_Func (Processing_Struct one)
 		int size_block1 = one.W1.size();
 		for (int i=0; i<size_block1; i++)
 		{
-			if (((one.T_start-dT)< one.Block_D1[i]) && (one.Block_D1[i] <= one.T_end)) 
+			if (/*((one.T_start-dT)< one.Block_D1[i]) && */(one.Block_D1[i] <= one.T_end)) 
 			{
 				// добавляем во вторую очередь
 				if (one.W1[i] == 1)	one.a2.push_back(one.Block_D1[i]);
@@ -107,7 +107,7 @@ Processing_Struct Processing_Func (Processing_Struct one)
 		// КОСЯКА НЕТ (последовательность действий:
 		// 1) изменени времени, 2)изменение очередей, 3)работа с блоками )
 		// изменение W2
-		if (((one.T_start  - dT )< one.Block_D2[0]) && (one.Block_D2[0] <= one.T_end)) 
+		if (/*((one.T_start  - dT )< one.Block_D2[0]) &&*/ (one.Block_D2[0] <= one.T_end)) 
 		{
 			// добавляем в третью очередь
 			if (one.W2[0] == 2)	one.a3.push_back(one.Block_D2[0]);

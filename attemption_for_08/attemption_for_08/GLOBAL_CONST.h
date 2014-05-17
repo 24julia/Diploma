@@ -9,6 +9,7 @@ extern const double lambda1;
 extern const double lambda2;
 extern const  int n;
 extern const double dT_koef;
+extern const float koef_unlock;
 
 // бннаые ме рпнцюел
 extern const double sigma;

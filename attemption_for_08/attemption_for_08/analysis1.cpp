@@ -13,7 +13,7 @@ int* analysis1(Processing_Struct State[4]){
 	int res[2];
 	long a[4];
 	int i;
-	for (i=0;i<3;i++){
+	for (i=0;i<4;i++){
 		if (i<2) {a[i] =(queue_len(State[i], 1)/State[i].Block_D1.size());}
 		else {    a[i] =(queue_len(State[i], 0)/State[i].Block_D1.size());}
 	}
