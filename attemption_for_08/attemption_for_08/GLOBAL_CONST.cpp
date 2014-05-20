@@ -9,8 +9,8 @@ const double lambda1 = 0.025; // задается показатель пуассновского распределения
 const double lambda2 = 0.025; // задается показатель пуассоновского распрделения для блока D2
 const  int n=1000; // число блоков в D1
 const double dT_koef = 500;
-extern const float koef_unlock = 0.2;
+extern const float koef_unlock = 1;
 
 // ВООБЩЕ НЕ ТРОГАЕМ
-const double sigma=0.03; // допустимая погрешность 
+const double sigma=0.1; // допустимая погрешность 
 const double insurance = 0.95; // степень неуверенности
