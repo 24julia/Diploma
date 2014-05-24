@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
-#include "GLOBAL_CONST.h"
+//#include "GLOBAL_CONST.h"
 #include "Processing_Func.h"
 
 // выдаёт ответ в след формате: res[0] - номер узла, из которого вытащить, res[1] - в который вставить

@@ -14,7 +14,7 @@
 #include "increase_d1.h"
 #include <fstream>
 #include <time.h>
-#include "GLOBAL_CONST.h"
+//#include "GLOBAL_CONST.h"
 #include "analysis1.h"
 
 using namespace std;
@@ -23,9 +23,23 @@ using namespace std;
 	int main()
 	{   srand( (unsigned)time( NULL ) );
 		int i;
+		//ОБЪЯВЛЕНИЕ КОНСТАНТ (ПОЗЖЕ ЗАМЕНИМ НА ВВОД ДАННЫХ ИЗ ОКОШКА)
+		//0.005 = 200 0.01 = 100 0.025=40	
+		double dT;
+		float lambda0 = 0.005; // показатель экспоненциального распределения 
+		float lambda1 = 0.025; // задается показатель пуассновского распределения для блока D1
+		float lambda2 = 0.025; // задается показатель пуассоновского распрделения для блока D2
+		int n=4000; // число блоков в D1
+		double dT_koef = 500;
+		float koef_unlock = 1;
+		long sum;
+
+		// ВООБЩЕ НЕ ТРОГАЕМ
+		float sigma=0.03; // допустимая погрешность 
+		float insurance = 0.95; // степень неуверенности
+		
 		//ОБЪЯВЛЕНИЕ ПЕРВОЙ ОЧЕРЕДИ И БЛОКОВ 
-		vector<long> First_Signals1;
-		vector<long> First_Signals2;
+	
 //-----------------------------------------------------------------------
 // ВЫЧИСЛЕНИЕ КОЛИЧЕСТВА ИТЕРАЦИЙ
 		long N_itt;
@@ -33,7 +47,16 @@ using namespace std;
 		
 //ГЕНЕРАЦИЯ ЗАЯВОК ВО ВХОДНОМ ПОТОКЕ 
 		long Exp_Random_V;
-		for (i=0; i<N_itt/(2*koef_unlock)+1; i++)
+		ofstream out;
+		out.open("log.txt");
+		int j;
+		for (j=1; j<=10000; j = j+100){
+			n=j;
+			N_itt = j*10;
+			vector<long> First_Signals1;
+			vector<long> First_Signals2;
+		//for (i=0; i<N_itt/(2*koef_unlock)+1; i++)
+		for (i=0; i<2*N_itt; i++)
 		{
 			if (i==0) Exp_Random_V = -1*(1/lambda0)*log(fRand());
 			else {Exp_Random_V = First_Signals1[i-1]-1*(1/lambda0)*log(fRand());}
@@ -56,9 +79,7 @@ using namespace std;
 		State_of_all[0].a1 = First_Signals1;
 		State_of_all[1].a1 = First_Signals2;
 
-		ofstream out;
-
-        int n1 = -1;
+		int n1 = -1;
 		int n2 = -1;
 		int* analysis_res = new int[2];
 		analysis_res[0] = n1;
@@ -66,16 +87,16 @@ using namespace std;
 		int count[4];
 		for (i=0; i<4; i++) count[i]=State_of_all[i].a6.size();
 		std::vector<long> a1[4];
-		out.open("log.txt");
 		//Основной цикл
-		while (a1[3].size() < N_itt){
+		//while (a1[3].size() < N_itt){
+		while (a1[0].size() < N_itt){
 			if (n1 == -1 && n2 == -1){
-				analysis_res = analysis1(State_of_all);
-				n1 = analysis_res[0];
-				n2 = analysis_res[1];
+				//analysis_res = analysis1(State_of_all);
+				//n1 = analysis_res[0];
+				//n2 = analysis_res[1];
 				if(n1!=-1 && n2!=-1){
-				cout<<n1+1<<"(" << State_of_all[n1].Block_D1.size()<<") "<<n2+1<<"(" << State_of_all[n2].Block_D1.size()<<") "<<endl;
-				 out<<n1+1<<"(" << State_of_all[n1].Block_D1.size()<<") "<<n2+1<<"(" << State_of_all[n2].Block_D1.size()<<") "<<endl;
+				//cout<<n1+1<<"(" << State_of_all[n1].Block_D1.size()<<") "<<n2+1<<"(" << State_of_all[n2].Block_D1.size()<<") "<<endl;
+				 //out<<n1+1<<"(" << State_of_all[n1].Block_D1.size()<<") "<<n2+1<<"(" << State_of_all[n2].Block_D1.size()<<") "<<endl;
 				}
 			}
 			//Вынимаем сервер из узла n1
@@ -92,14 +113,14 @@ using namespace std;
 			
 			//Функция обработки
 			//4 блок
-			State_of_all[3] = Processing_Func (State_of_all[3]);
+			State_of_all[3] = Processing_Func (State_of_all[3], lambda1, lambda2, dT);
 			while (!State_of_all[3].a6.empty()){
 					a1[3].push_back(State_of_all[3].a6.front());
 					State_of_all[3].a6.erase(State_of_all[3].a6.begin());
 				}
 			//3-1 блок
 			for(i=2;i>=0;i--){
-				State_of_all[i] = Processing_Func (State_of_all[i]);
+				State_of_all[i] = Processing_Func (State_of_all[i], lambda1, lambda2, dT);
 				while (!State_of_all[i].a6.empty()){
 					
 					if (i==0){
@@ -120,13 +141,20 @@ using namespace std;
 			// LOG
 			for (i=0;i<4;i++){
 				if (count[i]!=a1[i].size()){
-					cout << a1[i].size() << "/"<<(N_itt/(2*koef_unlock)+1)<<" out of " << i+1 << "(" << State_of_all[i].Block_D1.size()<<") "<< n1 <<" "<< n2 << " D1: "  << State_of_all[i].Block_D1[0]<< " D2: " <<State_of_all[i].Block_D2[0]<< " T_end: " <<State_of_all[i].T_end<< endl;
-					 out << a1[i].size() << "/"<<(N_itt/(2*koef_unlock)+1)<<" out of " << i+1 << "(" << State_of_all[i].Block_D1.size()<<") "<< n1 <<" "<< n2 << " D1: "  << State_of_all[i].Block_D1[0]<< " D2: " <<State_of_all[i].Block_D2[0]<< " T_end: " <<State_of_all[i].T_end<< endl;
+					if (i==0){
+					cout << a1[i].size() << "/"<<(N_itt)<<" out of " << i+1 << "(" << State_of_all[i].Block_D1.size()<<") "<< n1 <<" "<< n2 << " D1: "  << State_of_all[i].Block_D1[0]<< " D2: " <<State_of_all[i].Block_D2[0]<< " T_end: " <<State_of_all[i].T_end<< endl;
+					}// out << a1[i].size() << "/"<<(N_itt/(2*koef_unlock)+1)<<" out of " << i+1 << "(" << State_of_all[i].Block_D1.size()<<") "<< n1 <<" "<< n2 << " D1: "  << State_of_all[i].Block_D1[0]<< " D2: " <<State_of_all[i].Block_D2[0]<< " T_end: " <<State_of_all[i].T_end<< endl;
 					count[i]=a1[i].size();
 				}
 			}
 					
-		}	
-	
+		}
+		sum = 0;
+		for (i=0; i<a1[0].size(); i++){
+			sum = sum + a1[0][i]-First_Signals1[i];
+		}
+		sum = sum/((float)a1[0].size());
+		out<<j<<": "<<sum<<endl;
+		}
 		return 0;
 	}

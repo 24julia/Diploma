@@ -2,5 +2,5 @@
 #define _FOURTHPROC_
 #include "Processing_Func.h"
 
-Processing_Struct FourthProc(Processing_Struct);
+Processing_Struct FourthProc(Processing_Struct, float);
 #endif

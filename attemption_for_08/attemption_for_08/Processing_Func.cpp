@@ -10,10 +10,10 @@
 #include "ThirdProc.h"
 #include "FourthProc.h"
 #include "FifthProc.h"
-#include "GLOBAL_CONST.h"
+//#include "GLOBAL_CONST.h"
 using namespace std;
 
-Processing_Struct Processing_Func (Processing_Struct one)
+Processing_Struct Processing_Func (Processing_Struct one, float lambda1, float lambda2, double dT)
 {	bool first_que = true;
 
 	// обработка первого блока
@@ -34,7 +34,7 @@ Processing_Struct Processing_Func (Processing_Struct one)
 					{
 						if (one.a1[0] < one.T_end)
 						{
-							one = FirstProc (one);
+							one = FirstProc(one, lambda1);
 												}
 						else
 						{
@@ -46,11 +46,11 @@ Processing_Struct Processing_Func (Processing_Struct one)
 						// пятая пуста => выбираем из третьей
 						if (one.a5.empty())
 						{
-							one = ThirdProc (one);
+							one = ThirdProc(one, lambda1);
 						}
 						else
 						{
-							one = FifthProc (one);
+							one = FifthProc(one, lambda1);
 					
 						}
 					}
@@ -70,11 +70,11 @@ Processing_Struct Processing_Func (Processing_Struct one)
 			{
 				if (one.a4.empty()) 
 				{
-					one = SecondProc (one);
+					one = SecondProc(one, lambda2);
 				}
 				else
 				{
-					one = FourthProc (one);
+					one = FourthProc(one, lambda2);
 					
 				}
 	

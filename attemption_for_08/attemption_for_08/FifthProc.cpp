@@ -8,10 +8,10 @@
 #include "FifthProc.h"
 #include "Poison.h"	
 #include "Processing_Func.h"
-#include "GLOBAL_CONST.h"
+//#include "GLOBAL_CONST.h"
 using namespace std;
 
-	Processing_Struct FifthProc( Processing_Struct one) 
+	Processing_Struct FifthProc(Processing_Struct one, float lambda1) 
 	{
 		// Вытаскиваем первый элемент очереди
 			long element;

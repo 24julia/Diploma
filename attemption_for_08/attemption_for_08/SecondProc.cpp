@@ -11,7 +11,7 @@
 #include "GLOBAL_CONST.h"
 using namespace std;
 
-Processing_Struct SecondProc( Processing_Struct one) 
+Processing_Struct SecondProc(Processing_Struct one, float lambda2) 
 	{
 		// Вытаскиваем первый элемент очереди
 			long element;

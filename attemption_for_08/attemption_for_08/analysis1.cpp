@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
-#include "GLOBAL_CONST.h"
+//#include "GLOBAL_CONST.h"
 #include "Processing_Func.h"
 #include "queue_len.h"
 

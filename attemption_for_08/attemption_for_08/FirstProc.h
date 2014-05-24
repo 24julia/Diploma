@@ -2,5 +2,5 @@
 #define _FIRSTPROC_
 #include "Processing_Func.h"
 
-Processing_Struct FirstProc(Processing_Struct);
+Processing_Struct FirstProc(Processing_Struct, float);
 #endif

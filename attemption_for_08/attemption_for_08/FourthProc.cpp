@@ -8,10 +8,10 @@
 #include "FirstProc.h"
 #include "Poison.h"	
 #include "Processing_Func.h"
-#include "GLOBAL_CONST.h"
+//#include "GLOBAL_CONST.h"
 using namespace std;
 
-Processing_Struct FourthProc( Processing_Struct one) 
+Processing_Struct FourthProc(Processing_Struct one, float lambda2) 
 	{
 		// Вытаскиваем первый элемент очереди
 			long element;

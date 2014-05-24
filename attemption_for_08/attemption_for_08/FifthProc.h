@@ -2,5 +2,5 @@
 #define _FIFTHPROC_
 #include "Processing_Func.h"
 
-Processing_Struct FifthProc(Processing_Struct);
+Processing_Struct FifthProc(Processing_Struct, float);
 #endif

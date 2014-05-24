@@ -18,6 +18,6 @@ std::vector<long> W2;
 int n;//0-успешно изъ€т элемент
 };
 
-Processing_Struct Processing_Func(Processing_Struct);
+Processing_Struct Processing_Func(Processing_Struct, float, float, double);
  
 #endif
