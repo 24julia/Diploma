@@ -50,7 +50,7 @@ using namespace std;
 		ofstream out;
 		out.open("log.txt");
 		int j;
-		for (j=1; j<=10000; j = j+100){
+		for (j=100; j<=10000; j = j+100){
 			n=j;
 			N_itt = j*10;
 			vector<long> First_Signals1;
