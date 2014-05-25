@@ -17,5 +17,5 @@ long Poison(double lambda)
 			p = p*f;
 		}
 		return k-1;*/
-		return (long) (ceil)(-1*(0.7/lambda)*log(fRand())+0.3/lambda);
+		return (long) (ceil)(-1*(0.9/lambda)*log(fRand())+0.1/lambda);
 	}

@@ -24,14 +24,14 @@ using namespace std;
 	{   srand( (unsigned)time( NULL ) );
 		int i;
 		//ОБЪЯВЛЕНИЕ КОНСТАНТ (ПОЗЖЕ ЗАМЕНИМ НА ВВОД ДАННЫХ ИЗ ОКОШКА)
-		//0.005 = 200 0.01 = 100 0.025=40	
-		double dT;
-		float lambda0 = 0.005; // показатель экспоненциального распределения 
-		float lambda1 = 0.025; // задается показатель пуассновского распределения для блока D1
-		float lambda2 = 0.025; // задается показатель пуассоновского распрделения для блока D2
+		//0.005 = 200 0.01 = 100 0.025=40	0.075 = 3/40
+		double dT = 1;
+		float lambda0 = 0.025; // показатель экспоненциального распределения 
+		float lambda1 = 0.075; // задается показатель пуассновского распределения для блока D1
+		float lambda2 = lambda1; // задается показатель пуассоновского распрделения для блока D2
 		int n=4000; // число блоков в D1
 		double dT_koef = 500;
-		float koef_unlock = 1;
+		float koef_unlock = 0.0004;
 		long sum;
 
 		// ВООБЩЕ НЕ ТРОГАЕМ
@@ -50,9 +50,8 @@ using namespace std;
 		ofstream out;
 		out.open("log.txt");
 		int j;
-		for (j=100; j<=10000; j = j+100){
+		for (j=500; j<=8000; j = j+500){
 			n=j;
-			N_itt = j*10;
 			vector<long> First_Signals1;
 			vector<long> First_Signals2;
 		//for (i=0; i<N_itt/(2*koef_unlock)+1; i++)
@@ -62,16 +61,17 @@ using namespace std;
 			else {Exp_Random_V = First_Signals1[i-1]-1*(1/lambda0)*log(fRand());}
 			First_Signals1.push_back(Exp_Random_V);
 
-			if (i==0) Exp_Random_V = -1*(1/lambda0)*log(fRand());
-			else {Exp_Random_V = First_Signals2[i-1]-1*(1/lambda0)*log(fRand());}
+			if (i==0) Exp_Random_V = -1*(1/500*lambda0)*log(fRand());
+			else {Exp_Random_V = First_Signals2[i-1]-1*(1/500*lambda0)*log(fRand());}
 			First_Signals2.push_back(Exp_Random_V);
 		}
 
 //ОСНОВНОЙ ЦИКЛ С ШАГОМ dT
 		/*if (lambda2 > lambda1) 	{dT = lambda1/100;}
 		else {dT = lambda2/100;}*/
-		if (lambda2 < lambda1) 	{dT = lambda1*dT_koef;}
-		else {dT = lambda2*dT_koef;}
+		//if (lambda2 < lambda1) 	{dT = lambda1*dT_koef;}
+		//else {dT = lambda2*dT_koef;}
+		
 		
 		// определение главной структуры
 		Processing_Struct State_of_all[4];
@@ -113,13 +113,13 @@ using namespace std;
 			
 			//Функция обработки
 			//4 блок
-			State_of_all[3] = Processing_Func (State_of_all[3], lambda1, lambda2, dT);
+			/*State_of_all[3] = Processing_Func (State_of_all[3], lambda1, lambda2, dT);
 			while (!State_of_all[3].a6.empty()){
 					a1[3].push_back(State_of_all[3].a6.front());
 					State_of_all[3].a6.erase(State_of_all[3].a6.begin());
-				}
-			//3-1 блок
-			for(i=2;i>=0;i--){
+				}*/
+			//3-1 блок ЗДЕСЬ ИЗМЕНЁН ЦИКЛ ДОЛЖНО БЫТЬ I=2
+			for(i=0;i>=0;i--){
 				State_of_all[i] = Processing_Func (State_of_all[i], lambda1, lambda2, dT);
 				while (!State_of_all[i].a6.empty()){
 					
@@ -129,7 +129,7 @@ using namespace std;
 						if (i==1){
 							State_of_all[2].a1.push_back(State_of_all[1].a6.front());
 						}else{
-							if(a1[3].size()<(koef_unlock+0.1)*a1[2].size()){
+							if(a1[3].size()<(koef_unlock*1.05)*a1[2].size()){
 								State_of_all[3].a1.push_back(State_of_all[2].a6.front());
 							}
 						}
