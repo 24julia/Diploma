@@ -26,9 +26,9 @@ using namespace std;
 		//ОБЪЯВЛЕНИЕ КОНСТАНТ (ПОЗЖЕ ЗАМЕНИМ НА ВВОД ДАННЫХ ИЗ ОКОШКА)
 		//0.005 = 200 0.01 = 100 0.025=40	0.075 = 3/40
 		double dT = 1;
-		float lambda0 = 0.025; // показатель экспоненциального распределения 
-		float lambda1 = 0.075; // задается показатель пуассновского распределения для блока D1
-		float lambda2 = lambda1; // задается показатель пуассоновского распрделения для блока D2
+		float lambda0 = 15/24; // показатель экспоненциального распределения 
+		float lambda1 = lambda0*3/4900;  // задается показатель пуассновского распределения для блока D1
+		float lambda2 = lambda1/1.5; // задается показатель пуассоновского распрделения для блока D2
 		int n=4000; // число блоков в D1
 		double dT_koef = 500;
 		float koef_unlock = 0.0004;
@@ -50,8 +50,9 @@ using namespace std;
 		ofstream out;
 		out.open("log.txt");
 		int j;
-		for (j=500; j<=8000; j = j+500){
+		for (j=100; j<=8000; j = j+100){
 			n=j;
+			N_itt = 30000;
 			vector<long> First_Signals1;
 			vector<long> First_Signals2;
 		//for (i=0; i<N_itt/(2*koef_unlock)+1; i++)
@@ -89,6 +90,7 @@ using namespace std;
 		std::vector<long> a1[4];
 		//Основной цикл
 		//while (a1[3].size() < N_itt){
+		int que_len = 0;
 		while (a1[0].size() < N_itt){
 			if (n1 == -1 && n2 == -1){
 				//analysis_res = analysis1(State_of_all);
@@ -147,14 +149,16 @@ using namespace std;
 					count[i]=a1[i].size();
 				}
 			}
-					
+		if 	(a1[0].size() == N_itt/2){
+			que_len = queue_len(State_of_all[0], 1);
+		}
 		}
 		sum = 0;
 		for (i=0; i<a1[0].size(); i++){
 			sum = sum + a1[0][i]-First_Signals1[i];
 		}
 		sum = sum/((float)a1[0].size());
-		out<<j<<": "<<sum<<endl;
+		out<<j<<": "<<sum<<"	que_len: "<<que_len<<endl;
 		}
 		return 0;
 	}
