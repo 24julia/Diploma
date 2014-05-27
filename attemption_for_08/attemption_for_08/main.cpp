@@ -27,11 +27,11 @@ int main()
 		//0.005 = 200 0.01 = 100 0.025=40	0.075 = 3/40
 		double dT = 1;
 		float lambda0 = 0.025; // показатель экспоненциального распределения 
-		float lambda1 = lambda0*3/500;  // задается показатель пуассновского распределения для блока D1
-		float lambda2 = lambda0*2; // задается показатель пуассоновского распрделения для блока D2
+		float lambda2 = 0.025*2; // задается показатель пуассоновского распрделения для блока D2
+		float lambda1 = lambda2*3/2/10;  // задается показатель пуассновского распределения для блока D1
 		int n=4000; // число блоков в D1
 		double dT_koef = 500;
-		float koef_unlock = 0.0004;
+		float koef_unlock = 0.005;
 		long sum;
 
 		// ВООБЩЕ НЕ ТРОГАЕМ
@@ -48,20 +48,22 @@ int main()
 //ГЕНЕРАЦИЯ ЗАЯВОК ВО ВХОДНОМ ПОТОКЕ 
 		long Exp_Random_V;
 		ofstream out;
+		ofstream out2;
 		out.open("log.txt");
+		out2.open("res.txt");
 		int j;
-		for (j=100; j<=7000; j = j+100){
+//цикл по количеству узлов
+		for (j=1; j<=20; j ++){
 			n=j;
-			N_itt = 10000;
 			float lambda1 = lambda0*3/j;
 			vector<long> First_Signals1;
 			vector<long> First_Signals2;
-		//for (i=0; i<N_itt/(2*koef_unlock)+1; i++)
-			for (i=0; i<2*N_itt; i++){	
+			for (i=0; i<N_itt; i++){	
 				if (i==0) Exp_Random_V = -1*(1/lambda0)*log(fRand());
 				else {Exp_Random_V = First_Signals1[i-1]-1*(1/lambda0)*log(fRand());}
 				First_Signals1.push_back(Exp_Random_V);
-
+			}
+			for(i=0; i<N_itt/100;i++){
 				if (i==0) Exp_Random_V = -1*(1/500*lambda0)*log(fRand());
 				else {Exp_Random_V = First_Signals2[i-1]-1*(1/500*lambda0)*log(fRand());}
 				First_Signals2.push_back(Exp_Random_V);
@@ -87,12 +89,10 @@ int main()
 			analysis_res[1] = n2;
 			int count[4];
 			for (i=0; i<4; i++) count[i]=State_of_all[i].a6.size();
-			std::vector<long> a1[4];
+			std::vector<long> a1[5];
 		//Основной цикл
-		//while (a1[3].size() < N_itt){
 			int que_len = 0;
-			cout<<"HI";
-			while (a1[0].size() < N_itt){
+			while (a1[3].size() < N_itt*koef_unlock){
 				if (n1 == -1 && n2 == -1){
 					//analysis_res = analysis1(State_of_all);
 					//n1 = analysis_res[0];
@@ -116,13 +116,13 @@ int main()
 			
 				//Функция обработки
 				//4 блок
-				/*State_of_all[3] = Processing_Func (State_of_all[3], lambda1, lambda2, dT);
+				State_of_all[3] = Processing_Func (State_of_all[3], lambda1, lambda2, dT);
 				while (!State_of_all[3].a6.empty()){
 						a1[3].push_back(State_of_all[3].a6.front());
 						State_of_all[3].a6.erase(State_of_all[3].a6.begin());
-					}*/
+					}
 					//3-1 блок ЗДЕСЬ ИЗМЕНЁН ЦИКЛ ДОЛЖНО БЫТЬ I=2
-				for(i=0;i>=0;i--){
+				for(i=2;i>=0;i--){
 					State_of_all[i] = Processing_Func (State_of_all[i], lambda1, lambda2, dT);
 					while (!State_of_all[i].a6.empty()){					
 						if (i==0){
@@ -133,6 +133,7 @@ int main()
 							}else{
 								if(a1[3].size()<(koef_unlock*1.05)*a1[2].size()){
 									State_of_all[3].a1.push_back(State_of_all[2].a6.front());
+									a1[4].push_back(State_of_all[i].a6.front());
 								}
 							}
 						}
@@ -143,9 +144,8 @@ int main()
 			// LOG
 				for (i=0;i<4;i++){
 					if (count[i]!=a1[i].size()){
-						if (i==0){
-							cout << a1[i].size() << "/"<<(N_itt)<<" out of " << i+1 << "(" << State_of_all[i].Block_D1.size()<<") "<< n1 <<" "<< n2 << " D1: "  << State_of_all[i].Block_D1[0]<< " D2: " <<State_of_all[i].Block_D2[0]<< " T_end: " <<State_of_all[i].T_end<< endl;
-						}// out << a1[i].size() << "/"<<(N_itt/(2*koef_unlock)+1)<<" out of " << i+1 << "(" << State_of_all[i].Block_D1.size()<<") "<< n1 <<" "<< n2 << " D1: "  << State_of_all[i].Block_D1[0]<< " D2: " <<State_of_all[i].Block_D2[0]<< " T_end: " <<State_of_all[i].T_end<< endl;
+						cout << a1[i].size() << "/"<<(N_itt)<<" out of " << i+1 << "(" << State_of_all[i].Block_D1.size()<<") "<< n1 <<" "<< n2 << " D1: "  << State_of_all[i].Block_D1[0]<< " D2: " <<State_of_all[i].Block_D2[0]<< " T_end: " <<State_of_all[i].T_end<< endl;
+						// out << a1[i].size() << "/"<<(N_itt/(2*koef_unlock)+1)<<" out of " << i+1 << "(" << State_of_all[i].Block_D1.size()<<") "<< n1 <<" "<< n2 << " D1: "  << State_of_all[i].Block_D1[0]<< " D2: " <<State_of_all[i].Block_D2[0]<< " T_end: " <<State_of_all[i].T_end<< endl;
 						count[i]=a1[i].size();
 					}
 				}
@@ -159,6 +159,15 @@ int main()
 		}
 		sum = sum/((float)a1[0].size());
 		out<<j<<": "<<sum<<"	que_len: "<<que_len<<endl;
+
+		out2<<j<<endl;
+		for (sum=0; sum <=4; sum++){
+			out2<<sum+1;
+			for (i=0; i<a1[sum].size(); i++){
+				out2<<" "<<a1[sum][i];
+			}
+			out2<<endl;
+		}
 	}
 		return 0;
 }
