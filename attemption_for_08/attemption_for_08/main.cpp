@@ -82,8 +82,8 @@ int main()
 				int count[4];
 				for (i=0; i<4; i++) count[i]=State_of_all[i].a6.size();
 				std::vector<long> a1[5];
-		//Основной цикл
 				int que_len = 0;
+		//Основной цикл				
 				while (a1[3].size() < N_itt*koef_unlock){
 					if (n1 == -1 && n2 == -1){
 						//analysis_res = analysis1(State_of_all);
@@ -149,7 +149,7 @@ int main()
 				int in_3;
 				int in;
 				bool find;
-				std::vector<long>  from1and2;
+				std::vector<long>  from1and2(a1[0].size()+a1[1].size());
 				std::sort (a1[0].begin(), a1[0].end()); 
 				std::sort (a1[1].begin(), a1[1].end()); 
 				merge(a1[0].begin(), a1[0].end(), a1[1].begin(), a1[1].end(), from1and2.begin()) ;
