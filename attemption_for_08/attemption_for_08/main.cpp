@@ -122,7 +122,7 @@ int main()
 								if (i==1){
 									State_of_all[2].a1.push_back(State_of_all[1].a6.front());
 								}else{
-									if(a1[3].size()<(koef_unlock*1.1)*a1[2].size()){
+									if(a1[3].size()<(koef_unlock*1.05)*a1[2].size()){
 										State_of_all[3].a1.push_back(State_of_all[2].a6.front());
 										a1[4].push_back(State_of_all[i].a6.front());
 									}
@@ -150,7 +150,9 @@ int main()
 				int in;
 				bool find;
 				std::vector<long>  from1and2;
-				merge(a1[0].begin(), a1[0].end(), a1[1].begin(), a1[0].end(), from1and2.begin()) ;
+				std::sort (a1[0].begin(), a1[0].end()); 
+				std::sort (a1[1].begin(), a1[1].end()); 
+				merge(a1[0].begin(), a1[0].end(), a1[1].begin(), a1[1].end(), from1and2.begin()) ;
 				for (cdr=0; cdr<a1[3].size(); cdr++){//для каждой вышедшей из 4
 					find = false;
 					for (in_3=0; in_3<a1[2].size(); in_3++){// подбираем номер в полном списке вышедших из 3
