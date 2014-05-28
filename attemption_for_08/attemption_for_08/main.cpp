@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <string>
 #include "fRand.h"
 #include "Poison.h"
 #include "Kolmqvant.h"
@@ -26,7 +27,7 @@ int main()
 		//ОБЪЯВЛЕНИЕ КОНСТАНТ (ПОЗЖЕ ЗАМЕНИМ НА ВВОД ДАННЫХ ИЗ ОКОШКА)
 		//0.005 = 200 0.01 = 100 0.025=40	0.075 = 3/40
 		double dT = 1;
-		float lambda0 = 0.025; // показатель экспоненциального распределения 
+		float lambda0 = 0.05; // показатель экспоненциального распределения 
 		float lambda2 = 0.025*2; // задается показатель пуассоновского распрделения для блока D2
 		float lambda1 = lambda2*3/2/10;  // задается показатель пуассновского распределения для блока D1
 		int n=4000; // число блоков в D1
@@ -50,10 +51,13 @@ int main()
 		ofstream out;
 		ofstream out2;
 		out.open("log.txt");
-		out2.open("res.txt");
+	for(int file_i=1; file_i<=20; file_i++){
+		float lambda0 = 0.005*file_i;
+		std::string file_name = "res" + std::to_string(static_cast<long long>(file_i)) + ".txt";
+		out2.open(file_name);
 		int j;
 //цикл по количеству узлов
-		for (j=1; j<=20; j ++){
+		for (j=1; j<=30; j ++){
 			n=j;
 			float lambda1 = lambda0*3/j;
 			vector<long> First_Signals1;
@@ -169,5 +173,7 @@ int main()
 			out2<<endl;
 		}
 	}
-		return 0;
+	out2.close();
+	}
+	return 0;
 }
