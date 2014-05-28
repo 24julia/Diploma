@@ -122,7 +122,7 @@ int main()
 								if (i==1){
 									State_of_all[2].a1.push_back(State_of_all[1].a6.front());
 								}else{
-									if(a1[3].size()<(koef_unlock*1.05)*a1[2].size()){
+									if(a1[3].size()<(koef_unlock*1.1)*a1[2].size()){
 										State_of_all[3].a1.push_back(State_of_all[2].a6.front());
 										a1[4].push_back(State_of_all[i].a6.front());
 									}
