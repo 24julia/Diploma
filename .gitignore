@@ -1,6 +1,7 @@
 *.sdf
 *.ncb
 *.suo
+results/**
 attemption_for_08/Release/**
 attemption_for_08/Debug/**
 attemption_for_08/_UpgradeReport_Files/**
