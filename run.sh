@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 FOLDER_NAME="julia_diplo_$(date '+%b_%d_%H_%M_%S')"
-mkdir results/$FOLDER_NAME
+mkdir -p results/$FOLDER_NAME
 
 cd attemption_for_08/attemption_for_08
 CPPS=`find . -type f -name '*.cpp' -printf "%f\n"|grep -v "^log.cpp$"`
